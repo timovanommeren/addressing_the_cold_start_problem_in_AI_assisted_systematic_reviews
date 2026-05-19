@@ -99,14 +99,14 @@ Key packages used: `here`, `dplyr`, `tidyr`, `ggplot2`, `ggtext`, `patchwork`, `
 
 ## Reproducing the Results
 
-Two paths are provided. **Path B is recommended** for most readers, as it bypasses the computationally expensive LLM simulation (which requires an OpenAI API key and significant API cost).
+Two paths are provided. **Path B is recommended** for most readers, as it bypasses the computationally expensive LLM simulation (which requires an OpenAI API key and API costs).
 
 ---
 
 ### Path A: Full End-to-End Replication
 
 > Runs the complete pipeline from raw data → simulation → analysis → compiled manuscript.  
-> Requires an OpenAI API key. Estimated API cost: ~$X for the full 270-run grid.
+> Requires an OpenAI API key. 
 
 #### 1. Clone the repository
 
@@ -163,31 +163,12 @@ python simulation/run.py run \
 
 This runs 270 simulations × 23 datasets × 4 conditions and appends results to `simulation_results/run_01/all_simulation_results.csv`.
 
-#### 6. Run the supplementary simulation (criteria modifications)
-
-Update `pyproject.toml` for the supplementary run:
-
-```toml
-stimuli_for_llm = ["Original", "Abbreviations", "Expanded_terms"]
-condition       = ["criteria"]
-# subset_datasets = [...]   # the 12 datasets used in the paper
-```
-
-Then run:
-
-```bash
-python simulation/run.py run \
-  data/synergy_dataset \
-  simulation_results/run_varying_eligibility_criteria \
-  data/inclusion_criteria_prepared.xlsx
-```
-
 #### 7. Run the R analysis
 
 Open [`statistical_analysis.Rproj`](statistical_analysis.Rproj) in RStudio, then knit:
 
 ```r
-renv::restore()           # first time only — installs all packages
+renv::restore()      
 rmarkdown::render("Analysis/analysis.Rmd")
 ```
 
